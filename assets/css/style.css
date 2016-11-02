@@ -1,3 +1,10 @@
+body {
+	background-image: url('http://previews.123rf.com/images/kgtoh/kgtoh1107/kgtoh110700155/9914751-Background-concept-illustration-of-sports-physical-activities-international-Stock-Illustration.jpg');
+	background-size: 700px;
+}
+#sportsView {
+	margin-bottom:20px;
+}
 .container {
 	float:left;
 	display:inline-block;
@@ -11,4 +18,14 @@ form {
 }
 .soccerPlayer{
 	color:;
+}
+.item {
+	background-color:snow;
+	text-align:center;
+}
+.sport {
+	margin:10px;
+}
+.rating{
+	margin:5px;
 }

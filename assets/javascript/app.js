@@ -4,15 +4,15 @@
 // There should also be a form that allows the user to input a new soccerPlayer to the soccerPlayer buttons already displayed
 
 
-var topics = ['Zidane','Ronaldo','Messi ','Ronaldinho','Robinho','Sergio Ramos','Del Piero'];
+var topics = ['ping pong','tennis','football','badminton','basketball','hockey'];
 
 function displaySoccerPlayerGif() {
 
-	$('#soccerPlayerGifs').empty();
+	$('#sportsGiphies').empty();
 
-	var $soccerPlayer = $(this).data('name');
+	var $sport = $(this).data('name');
 
-	var queryURL = 'https://api.giphy.com/v1/gifs/search?q='+$soccerPlayer+'&api_key=dc6zaTOxFJmzC&limit=10';
+	var queryURL = 'https://api.giphy.com/v1/gifs/search?q='+$sport+'&api_key=dc6zaTOxFJmzC&limit=10&rating=pg-13';
 
 	$.ajax({url: queryURL, method: 'GET'})
 
@@ -26,19 +26,19 @@ function displaySoccerPlayerGif() {
 
 			var $rating = $results[i].rating;
 
-			var $p = $('<p>').text('Rating: '+$rating);
+			var $p = $('<p>').text('Rating: '+$rating).addClass('rating');
 
-			var $soccerPlayerImage = $('<img id="gif">');
-			$soccerPlayerImage.attr('src',$results[i].images.fixed_height_still.url);
-			$soccerPlayerImage.attr('data-state','still');
-			$soccerPlayerImage.attr('data-still',$results[i].images.fixed_height_still.url);
-			$soccerPlayerImage.attr('data-animate',$results[i].images.fixed_height.url);
+			var $sportImage = $('<img id="gif">');
+			$sportImage.attr('src',$results[i].images.fixed_height_still.url);
+			$sportImage.attr('data-state','still');
+			$sportImage.attr('data-still',$results[i].images.fixed_height_still.url);
+			$sportImage.attr('data-animate',$results[i].images.fixed_height.url);
 
 			$gifDiv.append($p);
 
-			$gifDiv.append($soccerPlayerImage);
+			$gifDiv.append($sportImage);
 
-			$('#soccerPlayerGifs').prepend($gifDiv);
+			$('#sportsGiphies').prepend($gifDiv);
 
 			$('#gif').on('click',function(){
 
@@ -61,40 +61,42 @@ function displaySoccerPlayerGif() {
 
 function renderButtons() {
 
+	$('#sportsView').empty();
 
-	$('#soccerPlayerView').empty();
 	for (var i=0; i<topics.length; i++) {
-
 
 		var $aButton = $('<button>');
 
-		$aButton.addClass('soccerPlayer');
+		$aButton.addClass('sport btn btn-success');
 
 		$aButton.attr('data-name', topics[i]);
 
 		$aButton.text(topics[i]);
-		$('#soccerPlayerView').append($aButton);
+
+		$('#sportsView').append($aButton);
 	}
 }
 
 
-$('#addSoccerPlayer').on('click',function(){
+$('#addSport').on('click',function(){
 
-	if ($('#soccerPlayer-input').val()==='') {
+	if ($('#sport-input').val()==='') {
 		alert('Player not entered');
 	} else {
-		var soccerPlayer = $('#soccerPlayer-input').val().trim();
+		var sportInput = $('#sport-input').val().trim();
 
-		topics.push(soccerPlayer);
-topics
+		topics.push(sportInput);
+
 		renderButtons();
+
+		$('#sport-input').val("");
 
 		return false;
 	}
 });
 
 
-$(document).on('click', '.soccerPlayer', displaySoccerPlayerGif);
+$(document).on('click', '.sport', displaySoccerPlayerGif);
 
 renderButtons();
 
