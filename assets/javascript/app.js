@@ -1,23 +1,23 @@
 // Giphy app.
-// Create an array of animals. This array then needs to be displayed as buttons.
-// On click, each animal button should show 10 different giphys related to that animal clicked.
-// There should also be a form that allows the user to input a new animal to the animal buttons already displayed
+// Create an array of soccerPlayer. This array then needs to be displayed as buttons.
+// On click, each soccerPlayer button should show 10 different giphys related to that soccerPlayer clicked.
+// There should also be a form that allows the user to input a new soccerPlayer to the soccerPlayer buttons already displayed
 
 
-var animals = ['horse','wolf','turtle','dog','cat','giraffe','elephant','donkey'];
+var topics = ['Zidane','Ronaldo','Messi ','Ronaldinho','Robinho','Sergio Ramos','Del Piero'];
 
-function displayAnimalGif() {
+function displaySoccerPlayerGif() {
 
-	$('#animalGifs').empty();
+	$('#soccerPlayerGifs').empty();
 
-	var $animal = $(this).data('name');
+	var $soccerPlayer = $(this).data('name');
 
-	var queryURL = 'http://api.giphy.com/v1/gifs/search?q='+$animal+'&api_key=dc6zaTOxFJmzC&limit=10';
+	var queryURL = 'http://api.giphy.com/v1/gifs/search?q='+$soccerPlayer+'&api_key=dc6zaTOxFJmzC&limit=10';
 
 	$.ajax({url: queryURL, method: 'GET'})
 
 	.done(function(response){
-		
+
 		var $results = response.data;
 
 		for (var i=0; i<$results.length; i++) {
@@ -28,52 +28,73 @@ function displayAnimalGif() {
 
 			var $p = $('<p>').text('Rating: '+$rating);
 
-			var $animalImage = $('<img>');
-
-			$animalImage.attr('src', $results[i].images.fixed_height_still.url);
+			var $soccerPlayerImage = $('<img id="gif">');
+			$soccerPlayerImage.attr('src',$results[i].images.fixed_height_still.url);
+			$soccerPlayerImage.attr('data-state','still');
+			$soccerPlayerImage.attr('data-still',$results[i].images.fixed_height_still.url);
+			$soccerPlayerImage.attr('data-animate',$results[i].images.fixed_height.url);
 
 			$gifDiv.append($p);
 
-			$gifDiv.append($animalImage);
+			$gifDiv.append($soccerPlayerImage);
 
-			$('#animalGifs').prepend($gifDiv);
+			$('#soccerPlayerGifs').prepend($gifDiv);
+
+			$('#gif').on('click',function(){
+
+			var state = $(this).attr('data-state');
+
+	            if ( state == 'still'){
+	                $(this).attr('src', $(this).data('animate'));
+	                $(this).attr('data-state', 'animate');
+	            }else if (state==='animate'){
+	                $(this).attr('src', $(this).data('still'));
+	                $(this).attr('data-state', 'still');
+            	}
+			});
 
 		}
 	})
+
 
 }
 
 function renderButtons() {
 
-	$('#animalsView').empty();
 
-	for (var i=0; i<animals.length; i++) {
+	$('#soccerPlayerView').empty();
+	for (var i=0; i<topics.length; i++) {
+
 
 		var $aButton = $('<button>');
 
-		$aButton.addClass('animal');
+		$aButton.addClass('soccerPlayer');
 
-		$aButton.attr('data-name',animals[i]);
-		// $aButton.attr('data-still',animals[i].images.fixed_height_still.url);
-		// $abutton.attr('data-animate',animals[i].images.fixed_height.url);
+		$aButton.attr('data-name', topics[i]);
 
-		$aButton.text(animals[i]);
-
-		$('#animalsView').append($aButton);
+		$aButton.text(topics[i]);
+		$('#soccerPlayerView').append($aButton);
 	}
 }
 
-$('#addAnimal').on('click',function(){
-	var animal = $('#animal-input').val().trim();
 
-	animals.push(animal);
+$('#addSoccerPlayer').on('click',function(){
 
-	renderButtons();
+	if ($('#soccerPlayer-input').val()==='') {
+		alert('Player not entered');
+	} else {
+		var soccerPlayer = $('#soccerPlayer-input').val().trim();
 
-	return false;
-})
+		topics.push(soccerPlayer);
+topics
+		renderButtons();
 
-$(document).on('click', '.animal', displayAnimalGif);
+		return false;
+	}
+});
+
+
+$(document).on('click', '.soccerPlayer', displaySoccerPlayerGif);
 
 renderButtons();
 

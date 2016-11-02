@@ -1,4 +1,5 @@
 .container {
+	float:left;
 	display:inline-block;
 }
 .item {
@@ -7,4 +8,7 @@
 }
 form {
 	float:right;
+}
+.soccerPlayer{
+	color:;
 }
